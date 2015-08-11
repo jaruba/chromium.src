@@ -11,6 +11,8 @@ vars = {
     'b73e5f70d7ac6be98fb2555461f631afc90216ce',
   'chromium_git':
     'https://chromium.googlesource.com',
+  'nwjs_git':
+    'https://github.com/nwjs',
   'chromiumos_git':
     'https://chromium.googlesource.com/chromiumos',
   'google_toolbox_for_mac_revision':
@@ -84,7 +86,7 @@ deps = {
   'src/testing/gtest':
     (Var("chromium_git")) + '/external/googletest.git@23574bf2333f834ff665f894c97bef8a5b33a0a9',
   'src/third_party/WebKit':
-    (Var("chromium_git")) + '/chromium/blink.git@607abbc77d316988d9121937b7e21d4d3ca51698',
+    (Var("nwjs_git")) + '/blink.git@nw13',
   'src/third_party/angle':
     (Var("chromium_git")) + '/angle/angle.git@fa9744b09e2478c75a25fd1b497469d429e81591',
   'src/third_party/bidichecker':
@@ -183,8 +185,8 @@ deps = {
     (Var("chromium_git")) + '/chromium/deps/acid3.git@6be0a66a1ebd7ebc5abc1b2f405a945f6d871521',
   'src/tools/swarming_client':
     (Var("chromium_git")) + '/external/swarming.client.git@b39a448d8522392389b28f6997126a6ab04bfe87',
-  'src/v8':
-    (Var("chromium_git")) + '/v8/v8.git@f2469f248ac14c8fc9b6b2870b75bfbc15ea011f'
+  #'src/v8':
+  #  (Var("chromium_git")) + '/v8/v8.git@f2469f248ac14c8fc9b6b2870b75bfbc15ea011f'
 }
 
 deps_os = {
@@ -606,6 +608,17 @@ hooks = [
       '\\.sha1',
     'name':
       'instrumented_libraries'
+  },
+  {
+    'action': [
+      'python',
+      'src/content/nw/tools/patcher.py',
+      '--patch-config', 'src/content/nw/patch/patch.cfg'
+    ],
+    'pattern':
+      '.',
+    'name':
+      'nw_patch'
   },
   {
     'action': [
